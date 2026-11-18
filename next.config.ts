@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
+  images: {
+    // Photos come straight from Unsplash's CDN at the requested size; see lib/image-loader.ts.
+    loader: "custom",
+    loaderFile: "./lib/image-loader.ts",
+  },
   turbopack: {
     rules: {
       "*.css": {

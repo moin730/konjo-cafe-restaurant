@@ -1,26 +1,158 @@
 @import "tailwindcss";
 
+/*
+  Konjo palette, taken from konjo.com.au (its :root variables and logo).
+  orange #ee9d38 · dark #1d1f2e · brown #a25f4b · light grey #fafafa.
+  Orange is too light for white text, so text on orange uses the dark navy.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #ee9d38; /* Konjo orange */
+  --primary-hover: #e48c1f;
+  --primary-ink: #1d1f2e;
+  --secondary: #a25f4b; /* Konjo brown: headings & prices on light backgrounds */
+  --accent: #a25f4b;
+
+  --espresso: #1d1f2e; /* basic dark */
+  --espresso-2: #232d41; /* midnight blue */
+  --espresso-3: #2e3548;
+  --cream: #fafafa; /* light grey page background */
+  --cream-2: #fdf2e4; /* light orange tint for panels */
+  --sand: #f8dcb4; /* stronger orange tint */
+  --gold: #ee9d38;
+  --gold-ink: #a25f4b;
+
+  --background: var(--cream);
+  --foreground: var(--espresso);
+  --muted: #6b6b6b;
+  --ring: var(--secondary);
+  --radius: 1rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-ink);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-espresso: var(--espresso);
+  --color-espresso-2: var(--espresso-2);
+  --color-espresso-3: var(--espresso-3);
+  --color-cream: var(--cream);
+  --color-cream-2: var(--cream-2);
+  --color-sand: var(--sand);
+  --color-gold: var(--gold);
+  --color-gold-ink: var(--gold-ink);
+  --color-muted: var(--muted);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-anton), Impact, "Arial Narrow", sans-serif;
+  --font-ethiopic: var(--font-ethiopic), serif;
+
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-marquee-slow: marquee 70s linear infinite;
+  --animate-kenburns: kenburns 22s ease-out both;
+  --animate-spin-slow: spin 90s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+  @keyframes kenburns {
+    from {
+      transform: scale(1.14);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Film-grain warmth over everything. Static, cheap, non-interactive. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.09;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.13 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Mesob weave: a soft repeating diamond lattice for section backgrounds. */
+.mesob-texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%237d5f27' stroke-opacity='.12' stroke-width='1.2'%3E%3Cpath d='M24 4 44 24 24 44 4 24Z'/%3E%3Cpath d='M24 14 34 24 24 34 14 24Z'/%3E%3C/g%3E%3Cg fill='%23a63a22' fill-opacity='.07'%3E%3Cpath d='M0 0h6L0 6zM48 48h-6l6-6z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.mesob-texture-dark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23c19a58' stroke-opacity='.10' stroke-width='1.2'%3E%3Cpath d='M24 4 44 24 24 44 4 24Z'/%3E%3Cpath d='M24 14 34 24 24 34 14 24Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.font-display {
+  font-family: var(--font-anton), Impact, "Arial Narrow", sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+.ethiopic {
+  font-family: var(--font-ethiopic);
+  letter-spacing: 0.02em;
+}
+
+/* Pause infinite strips on hover / keyboard focus inside. */
+.marquee-pause:hover .marquee-track,
+.marquee-pause:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
 }
